@@ -4,8 +4,6 @@
 ## Get data ##
 # Get and rename 5W data ##
 
-data <- read_xlsx("./docs/exemple.xlsx")
-
 ## Get indicators ##
 
 activityinfo::activityInfoLogin("fayolle@unhcr.org", "126c199a4206a96f62a3d4f88e996c33")
@@ -43,6 +41,7 @@ dfindSP <- dfindicators %>%
 dfGIS <- read_xlsx("./docs/Admin1.xlsx")
 #   
 
+ErrorSub2324EN <- function(data) {
 
 ## Script in English
 
@@ -183,11 +182,19 @@ dfENGControl0 <- dfENGControl1 %>%
   left_join(dfENGControl2 , by = "id") %>%
   select (-id)
 
-write_xlsx(dfENGControl0 , "./docs/exempleverif.xlsx")
+return(dfENGControl0)
+
+} 
+
+#write_xlsx(dfENGControl0 , "./docs/exempleverif.xlsx")
 
 ## Script in Spanish ##
 
-dataSP <- read_xlsx("./docs/exempleVP.xlsx")
+
+
+# dataSP <- read_xlsx("./docs/exempleVP.xlsx")
+
+ErrorSub2324SP <- function(dataSP) {
 
 dfSP <- dataSP
 
@@ -247,13 +254,13 @@ dfSPControl <- dfSP %>%
           PartnerMissing = ifelse(is.na(Organisation), "Review", ""),
           SectorIndicatorError = ifelse(is.na(CODE), "Review", ""),
           ActivityMissing = ifelse( is.na(ActivityName) | is.na(ActivityDescrp), "Review", "" ),
-          BudgetError = ifelse( (sum(InKindBudget, CVABudget, na.rm = TRUE) == "0" ) | 
+          BudgetError = ifelse( (sum(InKindBudget, CVABudget, na.rm = TRUE) == "0" ) |
                                   (TotalBudget != sum(InKindBudget, CVABudget, na.rm = TRUE)), "Review", ""),
-          MPCSectorBudget = ifelse( Sector == "Transferencias Monetarias Multipropósito (MPC)" & 
+          MPCSectorBudget = ifelse( Sector == "Transferencias Monetarias Multipropósito (MPC)" &
                                       (CVABudget  == "0" | is.na(CVABudget)),"Review" , ""),
           DirectAssistNoBenef = ifelse(  IndicatorType == "Asistencia directa" & (TotalPers  == "0" | is.na(TotalPers)),"Review" , ""),
           DirectAssistPopType = ifelse(  IndicatorType == "Asistencia directa" & TotalPers != sum(InDestination,
-                                                                                                 InTransit, 
+                                                                                                 InTransit,
                                                                                                  HostCom,
                                                                                                  Pendular,
                                                                                                  Returnees,
@@ -264,7 +271,7 @@ dfSPControl <- dfSP %>%
                                                                                              Men,
                                                                                              na.rm = TRUE), "Review" , ""),
           CBuildNoBenef = ifelse(IndicatorType == "Capacitaciones" & (TotalPers  == "0" | is.na(TotalPers)),"Review" , ""),
-          NoOutput = ifelse((IndicatorType == "Infraestructura" | 
+          NoOutput = ifelse((IndicatorType == "Infraestructura" |
                                IndicatorType == "Campaña" |
                                IndicatorType == "Mecanismo/Abogacía" |
                                IndicatorType == "Otro") & (Output  == "0" | is.na(Output)),"Review" , "")
@@ -316,7 +323,7 @@ dfSPControl2 <- dfSPControl %>%
           DirectAssistAGD ,
           CBuildNoBenef,
           NoOutput,
-          id) %>% 
+          id) %>%
   discard(~all(is.na(.) | . ==""))%>%
   mutate( Review = NA)
 
@@ -326,4 +333,8 @@ dfSPControl0 <- dfSPControl1 %>%
   left_join(dfSPControl2 , by = "id") %>%
   select (-id)
 
-write_xlsx(dfSPControl0 , "./docs/exempleverifSP.xlsx")
+#  write_xlsx(dfSPControl0 , "./docs/exempleverifSP.xlsx")
+
+return(dfSPControl0)
+
+}

@@ -12,7 +12,7 @@ dashboardPage(
               
                
                column(4,shinydashboard::box(id="box_2", title = "Please copy paste only the activities here(without header)", solidHeader = T,collapsible = T,collapsed = F,
-                                            width = 12,status = "primary",
+                                            width = 26,status = "primary",
                                             import_copypaste_ui("myid", title = "Paste only the activities rows.")
                                             
                )
@@ -47,7 +47,7 @@ dashboardPage(
                p("V1 Actualizada Agosto 2022, por favor, transmiten sus comentarios al equipo regional de Manejo de informacion", style="color: #fff; background-color: #672D53"),
     
                column(4,shinydashboard::box(id="box_2", title = "Por favor, copie y pegue la tabla completa SIN EL ENCABEZADO", solidHeader = T,collapsible = T,collapsed = F,
-                                            width = 12,status = "primary",
+                                            width = 26,status = "primary",
                                             
                                         
                                                 import_copypaste_ui("myidESP", title = "Pegue la tabla completa sin el encabezado aquí"),

@@ -196,8 +196,6 @@ return(dfENGControl0)
 
 
 
-# dataSP <- read_xlsx("./docs/exempleVP.xlsx")
-
 ErrorSub2324SP <- function(dataSP) {
 
 dfSP <- dataSP
@@ -231,7 +229,7 @@ colnames(dfSP) <- c("Year",
                      "Verif2"
 )
 
-dfESP$InKindBudget = gsub("[\\$,]", "", dfSP$InKindBudget)
+dfSP$InKindBudget = gsub("[\\$,]", "", dfSP$InKindBudget)
 dfSP$CVABudget = gsub("[\\$,]", "", dfSP$CVABudget)
 dfSP$TotalBudget = gsub("[\\$,]", "", dfSP$TotalBudget)
 

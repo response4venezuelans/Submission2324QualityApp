@@ -76,6 +76,10 @@ colnames(dfENG) <- c("Year",
                      "Verif2"
                      )
 
+dfENG$InKindBudget = gsub("[\\$,]", "", dfENG$InKindBudget)
+dfENG$CVABudget = gsub("[\\$,]", "", dfENG$CVABudget)
+dfENG$TotalBudget = gsub("[\\$,]", "", dfENG$TotalBudget)
+
  dfENG <- dfENG%>%
    mutate_at(c("InKindBudget",
               "CVABudget",

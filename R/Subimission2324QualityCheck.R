@@ -231,6 +231,11 @@ colnames(dfSP) <- c("Year",
                      "Verif2"
 )
 
+dfESP$InKindBudget = gsub("[\\$,]", "", dfSP$InKindBudget)
+dfSP$CVABudget = gsub("[\\$,]", "", dfSP$CVABudget)
+dfSP$TotalBudget = gsub("[\\$,]", "", dfSP$TotalBudget)
+
+
 dfSP <- dfSP%>%
   mutate_at(c("InKindBudget",
               "CVABudget",

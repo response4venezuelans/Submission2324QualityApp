@@ -93,7 +93,8 @@ dfENG$TotalBudget = gsub("[\\$,]", "", dfENG$TotalBudget)
               "Women",
               "Men",
               "TotalPers",
-              "Output"), as.numeric)
+              "Output"), as.numeric)%>%
+   mutate(IndicatorType = ifelse(IndicatorType == "Capacity building", "Capacity Building", IndicatorType))
 
 ## Data joints and wrangling
 

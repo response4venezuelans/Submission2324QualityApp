@@ -78,9 +78,21 @@ colnames(dfENG) <- c("Year",
 dfENG$InKindBudget = gsub("[\\$,]", "", dfENG$InKindBudget)
 dfENG$CVABudget = gsub("[\\$,]", "", dfENG$CVABudget)
 dfENG$TotalBudget = gsub("[\\$,]", "", dfENG$TotalBudget)
+dfENG$InDestination = gsub("[\\,]", "", dfENG$InDestination)
+dfENG$InTransit = gsub("[\\,]", "", dfENG$InTransit)
+dfENG$HostCom = gsub("[\\,]", "", dfENG$HostCom)
+dfENG$Pendular = gsub("[\\,]", "", dfENG$Pendular)
+dfENG$Returnees = gsub("[\\,]", "", dfENG$Returnees)
+dfENG$Girls = gsub("[\\,]", "", dfENG$Girls)
+dfENG$Boys = gsub("[\\,]", "", dfENG$Boys)
+dfENG$Women = gsub("[\\,]", "", dfENG$Women )
+dfENG$Men = gsub("[\\,]", "", dfENG$Men)
+dfENG$TotalPers = gsub("[\\,]", "", dfENG$TotalPers)
+dfENG$Output = gsub("[\\,]", "", dfENG$Output)
 
- dfENG <- dfENG%>%
-   mutate_at(c("InKindBudget",
+
+dfENG <- dfENG%>%
+  mutate_at(c("InKindBudget",
               "CVABudget",
               "TotalBudget",
               "InDestination",
@@ -94,7 +106,7 @@ dfENG$TotalBudget = gsub("[\\$,]", "", dfENG$TotalBudget)
               "Men",
               "TotalPers",
               "Output"), as.numeric)%>%
-   mutate(IndicatorType = ifelse(IndicatorType == "Capacity building", "Capacity Building", IndicatorType))
+  mutate(IndicatorType = ifelse(IndicatorType == "Capacity building", "Capacity Building", IndicatorType))
 
 ## Data joints and wrangling
 

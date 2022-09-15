@@ -242,7 +242,17 @@ colnames(dfSP) <- c("Year",
 dfSP$InKindBudget = gsub("[\\$,]", "", dfSP$InKindBudget)
 dfSP$CVABudget = gsub("[\\$,]", "", dfSP$CVABudget)
 dfSP$TotalBudget = gsub("[\\$,]", "", dfSP$TotalBudget)
-
+dfSP$InDestination = gsub("[\\,]", "", dfSP$InDestination)
+dfSP$InTransit = gsub("[\\,]", "", dfSP$InTransit)
+dfSP$HostCom = gsub("[\\,]", "", dfSP$HostCom)
+dfSP$Pendular = gsub("[\\,]", "", dfSP$Pendular)
+dfSP$Returnees = gsub("[\\,]", "", dfSP$Returnees)
+dfSP$Girls = gsub("[\\,]", "", dfSP$Girls)
+dfSP$Boys = gsub("[\\,]", "", dfSP$Boys)
+dfSP$Women = gsub("[\\,]", "", dfSP$Women )
+dfSP$Men = gsub("[\\,]", "", dfSP$Men)
+dfSP$TotalPers = gsub("[\\,]", "", dfSP$TotalPers)
+dfSP$Output = gsub("[\\,]", "", dfSP$Output)
 
 dfSP <- dfSP%>%
   mutate_at(c("InKindBudget",

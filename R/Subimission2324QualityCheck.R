@@ -379,9 +379,5 @@ dfSPControl2$Review[apply(dfSPControl2, 1, function(r) any(r %in% c("Review"))) 
 dfSPControl0 <- dfSPControl1 %>%
   left_join(dfSPControl2 , by = "id") %>%
   select (-id)
-
-#  write_xlsx(dfSPControl0 , "./docs/exempleverifSP.xlsx")
-
 return(dfSPControl0)
-
 }

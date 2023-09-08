@@ -6,7 +6,8 @@
 
 ## Get indicators ##
 
-activityinfo::activityInfoToken("a716678aca09c1fac3be059e37bf4c27", prompt = FALSE)
+activityinfo::activityInfoToken(Sys.getenv("ACTIVITYINFOTOKEN"),
+                                prompt = FALSE)
 
 
 

@@ -212,11 +212,7 @@ return(dfENGControl0)
 
 } 
 
-#write_xlsx(dfENGControl0 , "./docs/exempleverif.xlsx")
-
 ## Script in Spanish ##
-
-
 
 ErrorSub2324SP <- function(dataSP) {
 

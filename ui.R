@@ -8,10 +8,10 @@ dashboardPage(
       
       
       tabPanel(title = "English",br(),
-               p("V1 August 2022, please send any comments to the Regional platform IM team", style="color: #fff; background-color: #672D53"),
+               p("Updated by September 2023, please send any comments to the Regional platform IM team", style="color: #fff; background-color: #672D53"),
               
                
-               column(4,shinydashboard::box(id="box_2", title = "Please copy paste only the activities here(without header)", solidHeader = T,collapsible = T,collapsed = F,
+               column(4,shinydashboard::box(id="box_2", title = "Please copy paste only the activities here (without header)", solidHeader = T,collapsible = T,collapsed = F,
                                             width = 26,status = "primary",
                                             import_copypaste_ui("myid", title = "Paste only the activities rows.")
                                             
@@ -44,9 +44,9 @@ dashboardPage(
   
   
       tabPanel(title = "Espanol",br(),
-               p("V1 Actualizada Agosto 2022, por favor, transmiten sus comentarios al equipo regional de Manejo de informacion", style="color: #fff; background-color: #672D53"),
+               p("Actualizada a septiembre 2023, por favor, enviar sus comentarios al equipo regional de Manejo de informacion", style="color: #fff; background-color: #672D53"),
     
-               column(4,shinydashboard::box(id="box_2", title = "Por favor, copie y pegue la tabla completa SIN EL ENCABEZADO", solidHeader = T,collapsible = T,collapsed = F,
+               column(4,shinydashboard::box(id="box_2", title = "Por favor, copie y pegue la tabla completa (SIN EL ENCABEZADO)", solidHeader = T,collapsible = T,collapsed = F,
                                             width = 26,status = "primary",
                                             
                                         
@@ -62,7 +62,7 @@ dashboardPage(
                                             p("Número de errores"),
                                             h2(textOutput("Number_of_ErrorsESP")),
                                             p("Descargar el reporte"),
-                                            downloadButton("reportESP", "Descargar el reporte de qualidad", style="color: #fff; background-color: #672D53")
+                                            downloadButton("reportESP", "Descargar el reporte de calidad", style="color: #fff; background-color: #672D53")
                )),
                
                

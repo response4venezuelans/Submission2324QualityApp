@@ -6,23 +6,25 @@
 
 ## Get indicators ##
 
-activityinfo::activityInfoLogin("fayolle@unhcr.org", "126c199a4206a96f62a3d4f88e996c33")
+activityinfo::activityInfoToken("a716678aca09c1fac3be059e37bf4c27", prompt = FALSE)
+
 
 
 dfindicators <- queryTable("cnida8dl6m69ysl5",
-                           "CODE" = "cqlzwfyl6m6a6z26",
-                           "Sector" = "c6lz3qml6m86zs510",
-                           "Sector Objective" = "c2rdnj9l6m6bdsc8",
-                           "Indicator" = "c9bkfjpl6m6bnch9",
-                           "Description/Rationale" = "ce3v8rml6m6c3xda",
-                           "Indicator Type" = "cwrgbgdl6m6cv7rg",
-                           "Definition" = "c43enhgl6m6em42m",
-                           "Sector (SP)" = "cfiowfjl6m6jy7qn",
-                           "Objetivos del sector" = "caftra2l6m6kex8o",
-                           "Indicador (SP)" = "ce0kbv3l6m6ksqip",
-                           "Descripción (SP)" = "cps9f2hl6m6l651q",
-                           "Tipo de indicador" = "cdkyhqkl6m6li9xw",
-                           "Definiciones" = "c8nszxzl6m6lzufx", truncate.strings = FALSE)
+                 "CODE" = "cqlzwfyl6m6a6z26",
+                 "Sector" = "c6lz3qml6m86zs510",
+                 "Sector Objective" = "c2rdnj9l6m6bdsc8",
+                 "Indicator" = "c9bkfjpl6m6bnch9",
+                 "Description/Rationale" = "ce3v8rml6m6c3xda",
+                 "Indicator Type" = "cwrgbgdl6m6cv7rg",
+                 "Definition" = "c43enhgl6m6em42m",
+                 "Sector (SP)" = "cfiowfjl6m6jy7qn",
+                 "Objetivos del sector" = "caftra2l6m6kex8o",
+                 "Indicador (SP)" = "ce0kbv3l6m6ksqip",
+                 "Descripción (SP)" = "cps9f2hl6m6l651q",
+                 "Tipo de indicador" = "cdkyhqkl6m6li9xw",
+                 "Definiciones" = "c8nszxzl6m6lzufx", truncateStrings = FALSE)
+
 
 dfindEN <- dfindicators %>%
   select(CODE, 
@@ -46,8 +48,9 @@ ErrorSub2324EN <- function(data) {
 ## Script in English
 
 dfENG <- data
- 
-colnames(dfENG) <- c("Year",
+colnames(dfENG) <- c("ID",
+                     "Status",
+                     "Year",
                      "Country",
                      "Admin1",
                      "Organisation",
@@ -115,7 +118,10 @@ dfENGControl <- dfENG %>%
   left_join(dfGIS, by = c("Country", "Admin1"))%>%
 ## data quality check starts here ##
   rowwise() %>%
-  mutate( CountryAdmin1 = ifelse(is.na(ISOCode), "Review", ""),
+  mutate( IDCheck = ifelse(Status == "New" & !is.na(ID), "Review", ""),
+          StatusCheck = ifelse(Status == "New" | Status == "Amend" | Status == "Delete" | Status == "Mantain", "", "Review"),
+          YearMissing = ifelse( is.na(Year) | Year!=2024 , "Review", "" ),
+          CountryAdmin1 = ifelse(is.na(ISOCode), "Review", ""),
           PartnerMissing = ifelse(is.na(Organisation), "Review", ""),
           SectorIndicatorError = ifelse(is.na(CODE), "Review", ""),
           ActivityMissing = ifelse( is.na(ActivityName) | is.na(ActivityDescrp), "Review", "" ),
@@ -147,7 +153,9 @@ dfENGControl <- dfENG %>%
 
 # Eliminate empty error columns
 dfENGControl1 <- dfENGControl %>%
-  select( Year,
+  select( ID,
+          Status,
+          Year,
           Country,
           Admin1,
           Organisation,
@@ -176,7 +184,10 @@ dfENGControl1 <- dfENGControl %>%
           id)
 
 dfENGControl2 <- dfENGControl %>%
-  select( CountryAdmin1,
+  select( IDCheck,
+          StatusCheck,
+          YearMissing,
+          CountryAdmin1,
           PartnerMissing ,
           SectorIndicatorError,
           ActivityMissing ,
@@ -211,7 +222,9 @@ ErrorSub2324SP <- function(dataSP) {
 
 dfSP <- dataSP
 
-colnames(dfSP) <- c("Year",
+colnames(dfSP) <- c("ID",
+                    "Status",
+                    "Year",
                      "Country",
                      "Admin1",
                      "Organisation",
@@ -277,7 +290,10 @@ dfSPControl <- dfSP %>%
   left_join(dfGIS, by = c("Country", "Admin1"))%>%
   ## data quality check starts here ##
   rowwise() %>%
-  mutate( CountryAdmin1 = ifelse(is.na(ISOCode), "Review", ""),
+  mutate( IDCheck = ifelse(Status == "Nueva" & !is.na(ID), "Review", ""),
+          StatusCheck = ifelse(Status == "Nueva" | Status == "Modificar" | Status == "Eliminar" | Status == "Mantener", "", "Review"),
+          YearMissing = ifelse( is.na(Year) | Year!=2024 , "Review", "" ),
+          CountryAdmin1 = ifelse(is.na(ISOCode), "Review", ""),
           PartnerMissing = ifelse(is.na(Organisation), "Review", ""),
           SectorIndicatorError = ifelse(is.na(CODE), "Review", ""),
           ActivityMissing = ifelse( is.na(ActivityName) | is.na(ActivityDescrp), "Review", "" ),
@@ -309,7 +325,9 @@ dfSPControl <- dfSP %>%
 
 # Eliminate empty error columns
 dfSPControl1 <- dfSPControl %>%
-  select( Year,
+  select( ID,
+          Status,
+          Year,
           Country,
           Admin1,
           Organisation,
@@ -338,7 +356,10 @@ dfSPControl1 <- dfSPControl %>%
           id)
 
 dfSPControl2 <- dfSPControl %>%
-  select( CountryAdmin1,
+  select( IDCheck,
+          StatusCheck,
+          YearMissing,
+          CountryAdmin1,
           PartnerMissing ,
           SectorIndicatorError,
           ActivityMissing ,

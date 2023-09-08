@@ -119,7 +119,7 @@ dfENGControl <- dfENG %>%
   left_join(dfGIS, by = c("Country", "Admin1"))%>%
 ## data quality check starts here ##
   rowwise() %>%
-  mutate( IDCheck = ifelse(Status == "New" & !is.na(ID), "Review", ""),
+  mutate( IDCheck = ifelse(Status == "New" & (!is.null(ID) && ID != "" && !is.na(ID)), "Review", ""),
           StatusCheck = ifelse(Status == "New" | Status == "Amend" | Status == "Delete" | Status == "Mantain", "", "Review"),
           YearMissing = ifelse( is.na(Year) | Year!=2024 , "Review", "" ),
           CountryAdmin1 = ifelse(is.na(ISOCode), "Review", ""),
@@ -287,7 +287,7 @@ dfSPControl <- dfSP %>%
   left_join(dfGIS, by = c("Country", "Admin1"))%>%
   ## data quality check starts here ##
   rowwise() %>%
-  mutate( IDCheck = ifelse(Status == "Nueva" & !is.na(ID), "Review", ""),
+  mutate( IDCheck = ifelse(Status == "Nueva" & (!is.null(ID) && ID != "" && !is.na(ID)), "Review", ""),
           StatusCheck = ifelse(Status == "Nueva" | Status == "Modificar" | Status == "Eliminar" | Status == "Mantener", "", "Review"),
           YearMissing = ifelse( is.na(Year) | Year!=2024 , "Review", "" ),
           CountryAdmin1 = ifelse(is.na(ISOCode), "Review", ""),

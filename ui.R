@@ -131,7 +131,7 @@ dashboardPage(
               title = "Control",
               solidHeader = TRUE,
               collapsible = TRUE,
-              collapsed = TRUE,
+              collapsed = FALSE,
               width = 12,
               status = "primary",
               tags$b("Imported data:"),

@@ -10,10 +10,10 @@ dashboardPage(
         br(),
         p("Updated by September 2024, please send any comments to the Regional platform IM team", style = "color: #fff; background-color: #672D53"),
         column(
-          4,
+          8,
           shinydashboard::box(
             id = "box_2",
-            title = "Please copy paste only the activities here (without header)",
+            title = "Please copy & paste only the activities here (without headers)",
             solidHeader = TRUE,
             collapsible = TRUE,
             collapsed = FALSE,
@@ -76,9 +76,9 @@ dashboardPage(
       tabPanel(
         title = "Espanol",
         br(),
-        p("Actualizada a septiembre 2023, por favor, enviar sus comentarios al equipo regional de Manejo de informacion", style = "color: #fff; background-color: #672D53"),
+        p("Actualizada a septiembre 2024, por favor, enviar sus comentarios al equipo regional de Manejo de informacion", style = "color: #fff; background-color: #672D53"),
         column(
-          4,
+          8,
           shinydashboard::box(
             id = "box_2",
             title = "Por favor, copie y pegue la tabla completa (SIN EL ENCABEZADO)",

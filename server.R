@@ -11,7 +11,8 @@ shinyServer(function(input, output, session) {
 
   #ENGLISH ENGLISH
   
-  imported <- import_copypaste_server("myid", btn_show_data = TRUE)
+  imported <- import_copypaste_server("myid", btn_show_data = TRUE,
+                                      show_data_in = "modal")
   
   output$status <- renderPrint({
     imported$status() })
@@ -52,7 +53,8 @@ shinyServer(function(input, output, session) {
 
   #ESPANOL ESPANOL ESPANOL ESPANOL ESPANOL
 
-  imported2 <- import_copypaste_server("myidESP", btn_show_data = TRUE)
+  imported2 <- import_copypaste_server("myidESP", , btn_show_data = TRUE,
+                                       show_data_in = "modal")
   output$status <- renderPrint({
     imported2$status() })
   output$dataESP <- renderPrint({

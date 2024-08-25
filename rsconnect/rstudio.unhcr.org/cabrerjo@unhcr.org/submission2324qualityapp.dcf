@@ -1,0 +1,12 @@
+name: submission2324qualityapp
+title: Submission2324QualityApp
+username: cabrerjo@unhcr.org
+account: cabrerjo@unhcr.org
+server: rstudio.unhcr.org
+hostUrl: https://rstudio.unhcr.org/__api__
+appId: 648
+bundleId: 2701
+url: https://rstudio.unhcr.org/content/a0e42039-7158-403d-b6e0-7b3c24081952/
+version: 1
+asMultiple: FALSE
+asStatic: FALSE

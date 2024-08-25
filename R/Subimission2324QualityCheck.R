@@ -1,4 +1,4 @@
-## Quality Check for Submission form 2023-2024 ####
+## Quality Check for Submission form 2025-2026 ####
 ## Author: Francis Fayolle, R4V IM Team ###
 
 ## Get data ##
@@ -11,20 +11,24 @@ activityinfo::activityInfoToken(Sys.getenv("ACTIVITYINFOTOKEN"),
 
 
 
-dfindicators <- queryTable("cnida8dl6m69ysl5",
-                 "CODE" = "cqlzwfyl6m6a6z26",
-                 "Sector" = "c6lz3qml6m86zs510",
-                 "Sector Objective" = "c2rdnj9l6m6bdsc8",
-                 "Indicator" = "c9bkfjpl6m6bnch9",
-                 "Description/Rationale" = "ce3v8rml6m6c3xda",
-                 "Indicator Type" = "cwrgbgdl6m6cv7rg",
-                 "Definition" = "c43enhgl6m6em42m",
-                 "Sector (SP)" = "cfiowfjl6m6jy7qn",
-                 "Objetivos del sector" = "caftra2l6m6kex8o",
-                 "Indicador (SP)" = "ce0kbv3l6m6ksqip",
-                 "Descripción (SP)" = "cps9f2hl6m6l651q",
-                 "Tipo de indicador" = "cdkyhqkl6m6li9xw",
-                 "Definiciones" = "c8nszxzl6m6lzufx", truncateStrings = FALSE)
+dfindicators <- queryTable("cwk3g8tm07falxuu7j",
+                           "CODE" = "cdhugiblctco28h3",
+                           "Sector" = "cagw22hlctcp2vu5",
+                           "Sector Objective" = "cyyqv3alctcperj6",
+                           "Indicator" = "c1oo0eclctcqtjp8",
+                           "Rationale" = "cpaq2z8m07feolz3",
+                           "Indicator Type" = "cuskmf7lctcszoga",
+                           "Definitions" = "cmfe24fm07ff9y24",
+                           "Sector SP" = "cviy6p0lctcud9xc",
+                           "Objetivo" = "c4ut4hjlctcunimd",
+                           "Indicador" = "c9ck1g2lctcuxg4e",
+                           "Descripcion" = "chilz3cm07fgc9g5",
+                           "Tipo de indicador" = "cw1sv7hlctd1pk5g",
+                           "Definiciones" = "cyznpw1m07fgv8l6", truncateStrings = FALSE)|>
+  rename(Indicador.SP = Indicador)
+
+  
+
 
 
 dfindEN <- dfindicators %>%
@@ -35,23 +39,25 @@ dfindEN <- dfindicators %>%
 
 dfindSP <- dfindicators %>%
   select(CODE, 
-         Sector..SP.,
-         Indicador..SP.,
+         Sector.SP,
+         Indicador.SP,
          Tipo.de.indicador)
 
 # get Admin1 data 
 
-dfGIS <- read_xlsx("./docs/Admin1.xlsx")
+dfGIS <- queryTable("cnkrge1m07falxuu7o",
+                    "Country" = "c8u26b8kxeqpy0k4",
+                    "Admin1" = "c3ns3zikxeqq4h95",
+                    "ISOCode" = "cl3sspjkxeqq8yq6")
 #   
 
-ErrorSub2324EN <- function(data) {
+ErrorSubEN <- function(data) {
 
 ## Script in English
 
 dfENG <- data
-colnames(dfENG) <- c("ID",
-                     "Status",
-                     "Year",
+if(nrow(dfENG)>0){
+colnames(dfENG) <- c("Year",
                      "Country",
                      "Admin1",
                      "Organisation",
@@ -76,7 +82,8 @@ colnames(dfENG) <- c("ID",
                      "TotalPers",
                      "Output",
                      "Verif1",
-                     "Verif2"
+                     "Verif2",
+                     "Verif3"
                      )
 
 dfENG$InKindBudget = gsub("[\\$,]", "", dfENG$InKindBudget)
@@ -96,7 +103,8 @@ dfENG$Output = gsub("[\\,]", "", dfENG$Output)
 
 
 dfENG <- dfENG%>%
-  mutate_at(c("InKindBudget",
+  mutate_at(c("Year",
+              "InKindBudget",
               "CVABudget",
               "TotalBudget",
               "InDestination",
@@ -109,19 +117,17 @@ dfENG <- dfENG%>%
               "Women",
               "Men",
               "TotalPers",
-              "Output"), as.numeric)%>%
+              "Output"), as.numeric)|>
   mutate(IndicatorType = ifelse(IndicatorType == "Capacity building", "Capacity Building", IndicatorType))
 
 ## Data joints and wrangling
 
-dfENGControl <- dfENG %>%
-  left_join(dfindEN, by = c("Sector", "Indicator", "IndicatorType" = "Indicator.Type"))%>%
-  left_join(dfGIS, by = c("Country", "Admin1"))%>%
+dfENGControl <- dfENG |>
+  left_join(dfindEN, by = c("Sector", "Indicator", "IndicatorType" = "Indicator.Type"))|>
+  left_join(dfGIS, by = c("Country", "Admin1"))|>
 ## data quality check starts here ##
-  rowwise() %>%
-  mutate( IDCheck = ifelse(Status == "New" & (!is.null(ID) && ID != "" && !is.na(ID)), "Review", ""),
-          StatusCheck = ifelse(Status == "New" | Status == "Amend" | Status == "Delete" | Status == "Mantain", "", "Review"),
-          YearMissing = ifelse( is.na(Year) | Year!=2024 , "Review", "" ),
+  rowwise() |>
+  mutate( YearMissing = ifelse( is.na(Year) | !(Year %in% c(2025,2026)) , "Review", "" ),
           CountryAdmin1 = ifelse(is.na(ISOCode), "Review", ""),
           PartnerMissing = ifelse(is.na(Organisation), "Review", ""),
           SectorIndicatorError = ifelse(is.na(CODE), "Review", ""),
@@ -147,13 +153,13 @@ dfENGControl <- dfENG %>%
                                IndicatorType == "Campaign" |
                                IndicatorType == "Mechanism/Advocacy" |
                                IndicatorType == "Other") & (Output  == "0" | is.na(Output)),"Review" , "")
-          )%>%
-  ungroup()%>%
+          )|>
+  ungroup()|>
   mutate (id = row_number())
 
 
 # Eliminate empty error columns
-dfENGControl1 <- dfENGControl %>%
+dfENGControl1 <- dfENGControl|>
   select( ID,
           Status,
           Year,
@@ -182,12 +188,11 @@ dfENGControl1 <- dfENGControl %>%
           Output,
           Verif1,
           Verif2,
+          Verif3,
           id)
 
-dfENGControl2 <- dfENGControl %>%
-  select( IDCheck,
-          StatusCheck,
-          YearMissing,
+dfENGControl2 <- dfENGControl |>
+  select( YearMissing,
           CountryAdmin1,
           PartnerMissing ,
           SectorIndicatorError,
@@ -199,29 +204,28 @@ dfENGControl2 <- dfENGControl %>%
           DirectAssistAGD ,
           CBuildNoBenef,
           NoOutput,
-          id) %>% 
-  discard(~all(is.na(.) | . ==""))%>%
+          id) |>
+  discard(~all(is.na(.) | . ==""))|>
   mutate( Review = NA)
 
 dfENGControl2$Review[apply(dfENGControl2, 1, function(r) any(r %in% c("Review"))) == TRUE] <- "Please review activity"
 
-dfENGControl0 <- dfENGControl1 %>%
-  left_join(dfENGControl2 , by = "id") %>%
+dfENGControl0 <- dfENGControl1 |>
+  left_join(dfENGControl2 , by = "id") |>
   select (-id)
 
 return(dfENGControl0)
+
+}
 
 } 
 
 ## Script in Spanish ##
 
-ErrorSub2324SP <- function(dataSP) {
+ErrorSubSP <- function(dataSP) {
 
 dfSP <- dataSP
-
-colnames(dfSP) <- c("ID",
-                    "Status",
-                    "Year",
+colnames(dfSP) <- c("Year",
                      "Country",
                      "Admin1",
                      "Organisation",
@@ -246,7 +250,8 @@ colnames(dfSP) <- c("ID",
                      "TotalPers",
                      "Output",
                      "Verif1",
-                     "Verif2"
+                     "Verif2",
+                     "Verif3"
 )
 
 dfSP$InKindBudget = gsub("[\\$,]", "", dfSP$InKindBudget)
@@ -265,7 +270,8 @@ dfSP$TotalPers = gsub("[\\,]", "", dfSP$TotalPers)
 dfSP$Output = gsub("[\\,]", "", dfSP$Output)
 
 dfSP <- dfSP%>%
-  mutate_at(c("InKindBudget",
+  mutate_at(c("Year",
+              "InKindBudget",
               "CVABudget",
               "TotalBudget",
               "InDestination",
@@ -283,13 +289,11 @@ dfSP <- dfSP%>%
 ## Data joints and wrangling
 
 dfSPControl <- dfSP %>%
-  left_join(dfindSP, by = c("Sector" = "Sector..SP.", "Indicator" = "Indicador..SP.", "IndicatorType" = "Tipo.de.indicador"))%>%
+  left_join(dfindSP, by = c("Sector" = "Sector.SP", "Indicator" = "Indicador.SP", "IndicatorType" = "Tipo.de.indicador"))%>%
   left_join(dfGIS, by = c("Country", "Admin1"))%>%
   ## data quality check starts here ##
   rowwise() %>%
-  mutate( IDCheck = ifelse(Status == "Nueva" & (!is.null(ID) && ID != "" && !is.na(ID)), "Review", ""),
-          StatusCheck = ifelse(Status == "Nueva" | Status == "Modificar" | Status == "Eliminar" | Status == "Mantener", "", "Review"),
-          YearMissing = ifelse( is.na(Year) | Year!=2024 , "Review", "" ),
+  mutate( YearMissing = ifelse( is.na(Year) | !(Year %in% c(2025,2026)) , "Review", "" ),
           CountryAdmin1 = ifelse(is.na(ISOCode), "Review", ""),
           PartnerMissing = ifelse(is.na(Organisation), "Review", ""),
           SectorIndicatorError = ifelse(is.na(CODE), "Review", ""),
@@ -322,9 +326,7 @@ dfSPControl <- dfSP %>%
 
 # Eliminate empty error columns
 dfSPControl1 <- dfSPControl %>%
-  select( ID,
-          Status,
-          Year,
+  select( Year,
           Country,
           Admin1,
           Organisation,
@@ -350,12 +352,11 @@ dfSPControl1 <- dfSPControl %>%
           Output,
           Verif1,
           Verif2,
+          Verif3,
           id)
 
 dfSPControl2 <- dfSPControl %>%
-  select( IDCheck,
-          StatusCheck,
-          YearMissing,
+  select( YearMissing,
           CountryAdmin1,
           PartnerMissing ,
           SectorIndicatorError,

@@ -19,7 +19,7 @@ shinyServer(function(input, output, session) {
   
     output$data <- renderPrint({
       source("R/Subimission2324QualityCheck.R")
-     Data(ErrorSub2324EN(imported$data()))
+     Data(ErrorSubEN(imported$data()))
      showNotification("Data Processing Complete",duration = 10, type = "error")
      
      output$Number_of_Activities <- renderText({nrow(Data())})
@@ -59,7 +59,7 @@ shinyServer(function(input, output, session) {
     imported2$status() })
   output$dataESP <- renderPrint({
     source("R/Subimission2324QualityCheck.R")
-    DataESP(ErrorSub2324SP(imported2$data()))
+    DataESP(ErrorSubSP(imported2$data()))
     showNotification("Data Processing Complete",duration = 10, type = "error")
 
     output$Number_of_ActivitiesESP <- renderText({nrow(DataESP())})

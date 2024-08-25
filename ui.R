@@ -8,7 +8,7 @@ dashboardPage(
       tabPanel(
         title = "English",
         br(),
-        p("Updated by September 2023, please send any comments to the Regional platform IM team", style = "color: #fff; background-color: #672D53"),
+        p("Updated by September 2024, please send any comments to the Regional platform IM team", style = "color: #fff; background-color: #672D53"),
         column(
           4,
           shinydashboard::box(

@@ -1,5 +1,6 @@
 ## Quality Check for Submission form 2025-2026 ####
 ## Author: Francis Fayolle, R4V IM Team ###
+## Maintained by Jorge Cabrera, R4V IM Team ###
 
 ## Get data ##
 # Get and rename 5W data ##
@@ -54,7 +55,7 @@ dfGIS <- queryTable("cnkrge1m07falxuu7o",
 ErrorSubEN <- function(data) {
 
 ## Script in English
-
+req(data)
 dfENG <- data
 if(nrow(dfENG)>0){
 colnames(dfENG) <- c("Year",
@@ -160,9 +161,7 @@ dfENGControl <- dfENG |>
 
 # Eliminate empty error columns
 dfENGControl1 <- dfENGControl|>
-  select( ID,
-          Status,
-          Year,
+  select( Year,
           Country,
           Admin1,
           Organisation,
@@ -223,7 +222,7 @@ return(dfENGControl0)
 ## Script in Spanish ##
 
 ErrorSubSP <- function(dataSP) {
-
+req(dataSP)
 dfSP <- dataSP
 colnames(dfSP) <- c("Year",
                      "Country",

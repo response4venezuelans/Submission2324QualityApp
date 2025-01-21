@@ -224,6 +224,7 @@ return(dfENGControl0)
 ErrorSubSP <- function(dataSP) {
 req(dataSP)
 dfSP <- dataSP
+
 colnames(dfSP) <- c("Year",
                      "Country",
                      "Admin1",
@@ -284,9 +285,7 @@ dfSP <- dfSP%>%
               "Men",
               "TotalPers",
               "Output"), as.numeric)
-
 ## Data joints and wrangling
-
 dfSPControl <- dfSP %>%
   left_join(dfindSP, by = c("Sector" = "Sector.SP", "Indicator" = "Indicador.SP", "IndicatorType" = "Tipo.de.indicador"))%>%
   left_join(dfGIS, by = c("Country", "Admin1"))%>%

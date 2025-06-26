@@ -11,7 +11,7 @@ activityinfo::activityInfoToken(Sys.getenv("ACTIVITYINFOTOKEN"),
                                 prompt = FALSE)
 
 
-
+# get from https://www.activityinfo.org/app#form/cwk3g8tm07falxuu7j/table
 dfindicators <- queryTable("cwk3g8tm07falxuu7j",
                            "CODE" = "cdhugiblctco28h3",
                            "Sector" = "cagw22hlctcp2vu5",
